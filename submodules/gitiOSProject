@@ -1,0 +1,3 @@
+[submodule "submodules/gitiOSProject"]
+    path = submodules/gitiOSProject
+    url = https://github.com/GOQIIPRODUCTS/gitiOSProject.git
