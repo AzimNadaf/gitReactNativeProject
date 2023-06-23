@@ -47,7 +47,7 @@ const GraphPage = () => {
   const leftBtnPressed = () => {
     console.log('leftBtnPressed!' + selectedDate);
     //setLeftArrowButtonHidden(!leftArrowButtonHidden);
-    fetchDataFromNative();
+    
   };
   
   const rightBtnPressed = () => {
@@ -70,18 +70,19 @@ const GraphPage = () => {
     MyModule.callApi('store/fetch_store_home_components?', fai)
     .then((response) => {
       console.log('API call Data', response);
+
      // this.setState({ cardsArray: response.data.cards, loading: false })
      setReceivedData(response)
     })
     .catch((error) => {
       console.log('API call failed: ', error);
     });
-
-
-
   };
 
 
+  useEffect(() => {
+    fetchDataFromNative();
+  }, []);
 
   return (
 
@@ -91,11 +92,9 @@ const GraphPage = () => {
     <View style={{ flexDirection: 'row', marginVertical: 20, alignItems: 'center' }}>
       <ArrowButton direction="left" enabled={!leftArrowButtonHidden} onPress={leftBtnPressed} />
     </View>
-
     <View style={{ width: 200 }}>
       <CalendarComponent onButtonPress={selectedDateAction} />
     </View>
-
     <View style={{ flexDirection: 'row', marginVertical: 20, alignItems: 'center' }}>
       <ArrowButton direction={'right'} enabled={!rightArrowButtonHidden} onPress={rightBtnPressed} />
     </View>
