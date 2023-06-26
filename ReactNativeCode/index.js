@@ -39,11 +39,6 @@ const GraphPage = () => {
     setWebViewHeight(event.jsEvaluationValue);
   };
 
-  const selectedDateAction = (value) => {
-    setSelectedDate(value)
-     console.log('selectedDate ' + value); 
-  };
-
   const leftBtnPressed = () => {
     console.log('leftBtnPressed!' + selectedDate);
     //setLeftArrowButtonHidden(!leftArrowButtonHidden);
@@ -54,6 +49,11 @@ const GraphPage = () => {
     console.log('rightBtnPressed!' + selectedDate);
    // setRightArrowButtonHidden(!rightArrowButtonHidden);
     MyModule.myNativeMethod('Data from JavaScript to iOS!');
+  };
+
+  const onButtonPress = (value) => {
+    setSelectedDate(value)
+    console.log('selectedDate onButtonPress!' + value);
   };
 
   const fetchDataFromNative = () => {
@@ -88,14 +88,14 @@ const GraphPage = () => {
 
 <View style={styles.container}>
   <SegmentComponent />
-  <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-    <View style={{ flexDirection: 'row', marginVertical: 20, alignItems: 'center' }}>
+  <View style={{flex:0, flexDirection: 'row', justifyContent: 'center' }}>
+    <View style={{ flexDirection: 'row', marginVertical: 20 ,height:'auto'}}>
       <ArrowButton direction="left" enabled={!leftArrowButtonHidden} onPress={leftBtnPressed} />
     </View>
-    <View style={{ width: 200 }}>
-      <CalendarComponent onButtonPress={selectedDateAction} />
+    <View style={{ width: 200 ,height:'auto'}}>
+      <CalendarComponent onButtonPress={onButtonPress} />
     </View>
-    <View style={{ flexDirection: 'row', marginVertical: 20, alignItems: 'center' }}>
+    <View style={{ flexDirection: 'row', marginVertical: 20 ,height:'auto'}}>
       <ArrowButton direction={'right'} enabled={!rightArrowButtonHidden} onPress={rightBtnPressed} />
     </View>
   </View>

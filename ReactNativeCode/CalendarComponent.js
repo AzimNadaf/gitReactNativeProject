@@ -12,6 +12,7 @@ const CalendarComponent = (props) => {
     const currentDate = selectedDate || date;
     setShow(false);
     setDate(currentDate);
+    console.log('onChange = ', currentDate);
     props.onButtonPress(currentDate);
   };
 
@@ -39,7 +40,7 @@ const CalendarComponent = (props) => {
         <Text>{date.toLocaleTimeString()}</Text>
       </TouchableOpacity> */}
       {show && (
-         <View style={{  alignItems: 'center', justifyContent: 'center', padding: 10 ,width:100}}>
+         <View style={{  alignItems: 'center', justifyContent: 'center', padding: 10 ,width:100,height:'auto'}}>
         <DateTimePicker
           testID="dateTimePicker"
           value={date}
