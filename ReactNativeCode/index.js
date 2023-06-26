@@ -20,8 +20,8 @@ const GraphPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [leftArrowButtonHidden, setLeftArrowButtonHidden] = useState(false);
   const [rightArrowButtonHidden, setRightArrowButtonHidden] = useState(false);
-
-   const [data, setData] = useState([30, 2, 3, 4, 5]);
+  const [regDate, setRegDate] = useState(new Date(2023, 5, 23));
+  const [currentDate, setCurrentDate] = useState(new Date());
 
    const fai = {
     key1: 'value1',
@@ -40,20 +40,74 @@ const GraphPage = () => {
   };
 
   const leftBtnPressed = () => {
+    setSelectedDate(subtractOneDay(selectedDate))
     console.log('leftBtnPressed!' + selectedDate);
-    //setLeftArrowButtonHidden(!leftArrowButtonHidden);
-    
+    setButtonState()
   };
   
+
   const rightBtnPressed = () => {
+    setSelectedDate(addOneDay(selectedDate))
     console.log('rightBtnPressed!' + selectedDate);
-   // setRightArrowButtonHidden(!rightArrowButtonHidden);
-    MyModule.myNativeMethod('Data from JavaScript to iOS!');
+    setButtonState()
   };
 
+
+  const setButtonState= () =>{
+    setLeftArrowButton()
+    setRightArrowButton() 
+  }
+
+  const setLeftArrowButton = () => {
+    if(compareDates(regDate,selectedDate)){
+      setLeftArrowButtonHidden(false);
+    }else{
+       setLeftArrowButtonHidden(true);
+    }
+  }
+
+  const setRightArrowButton = () => {
+    if(compareDates(selectedDate,currentDate)){
+      setRightArrowButtonHidden(false);
+    }else{
+      setRightArrowButtonHidden(true);
+    }
+  }
   const onButtonPress = (value) => {
     setSelectedDate(value)
     console.log('selectedDate onButtonPress!' + value);
+    setButtonState()
+    
+    MyModule.myNativeMethod('Data from JavaScript to iOS!');
+  };
+
+  const compareDates = (dateString1, dateString2) => {
+    const date1 = new Date(dateString1);
+    const date2 = new Date(dateString2);
+  
+    // Set hours, minutes, seconds, and milliseconds to zero
+    date1.setHours(0, 0, 0, 0);
+    date2.setHours(0, 0, 0, 0);
+  
+    console.log('date1 = ' + date1 + ' date2 = ' + date2);
+    
+    if (date1.getTime() < date2.getTime()) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const subtractOneDay = (date) => {
+    const previousDate = new Date(date);
+    previousDate.setDate(previousDate.getDate() - 1);
+    return previousDate;
+  };
+
+  const addOneDay = (date) => {
+    const nextDate = new Date(date);
+    nextDate.setDate(nextDate.getDate() + 1);
+    return nextDate;
   };
 
   const fetchDataFromNative = () => {

@@ -49,6 +49,7 @@ const CalendarComponent = (props) => {
           display="inline"
           onChange={onChange}
           maximumDate={new Date()}
+          
         />
         </View>
       )}
