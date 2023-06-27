@@ -1,0 +1,3 @@
+[submodule "ReactNativeCode/ios"]
+	path = ReactNativeCode/ios
+	url = https://github.com/GOQIIPRODUCTS/ios.git
