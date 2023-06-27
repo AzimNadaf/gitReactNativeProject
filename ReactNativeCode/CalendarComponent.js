@@ -4,7 +4,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
 const CalendarComponent = (props) => {
-  const [date, setDate] = useState(new Date());
+
+  const [date, setDate] = useState(props.date);
+  const [minDate, setMinDate] = useState(props.minDate);
+
   const [mode, setMode] = useState('date');
   const [show, setShow] = useState(false);
 
@@ -13,9 +16,11 @@ const CalendarComponent = (props) => {
     setShow(false);
     setDate(currentDate);
     console.log('onChange = ', currentDate);
+    console.log('props.date = ', props.date);
     props.onButtonPress(currentDate);
   };
 
+  
   const showMode = (currentMode) => {
     setShow(true);
     setMode(currentMode);
@@ -49,7 +54,7 @@ const CalendarComponent = (props) => {
           display="inline"
           onChange={onChange}
           maximumDate={new Date()}
-          
+          minimumDate = {minDate}
         />
         </View>
       )}

@@ -42,14 +42,7 @@ const ListComponent = ({ receivedData }) => {
 
   const loadMoreData = () => {
     setIsLoading(true);
-
-
-
     var newData = [];
-
-
-
-
     setTimeout(() => {
       if(receivedData != null){
       if (receivedData && receivedData.data && receivedData.data.yAxisValues) {

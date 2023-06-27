@@ -40,18 +40,17 @@ const GraphPage = () => {
   };
 
   const leftBtnPressed = () => {
-    setSelectedDate(subtractOneDay(selectedDate))
-    console.log('leftBtnPressed!' + selectedDate);
-    setButtonState()
+    const previousDate = subtractOneDay(selectedDate);
+    setSelectedDate(previousDate);
+    console.log('leftBtnPressed!' + previousDate);
   };
   
 
   const rightBtnPressed = () => {
-    setSelectedDate(addOneDay(selectedDate))
-    console.log('rightBtnPressed!' + selectedDate);
-    setButtonState()
+    const nextDate = addOneDay(selectedDate);
+    setSelectedDate(nextDate);
+    console.log('rightBtnPressed!' + nextDate);
   };
-
 
   const setButtonState= () =>{
     setLeftArrowButton()
@@ -76,8 +75,7 @@ const GraphPage = () => {
   const onButtonPress = (value) => {
     setSelectedDate(value)
     console.log('selectedDate onButtonPress!' + value);
-    setButtonState()
-    
+
     MyModule.myNativeMethod('Data from JavaScript to iOS!');
   };
 
@@ -138,26 +136,29 @@ const GraphPage = () => {
     fetchDataFromNative();
   }, []);
 
+  useEffect(() => {
+    setButtonState();
+  }, [selectedDate]);
+
   return (
 
 <View style={styles.container}>
-  <SegmentComponent />
-  <View style={{flex:0, flexDirection: 'row', justifyContent: 'center' }}>
-    <View style={{ flexDirection: 'row', marginVertical: 20 ,height:'auto'}}>
-      <ArrowButton direction="left" enabled={!leftArrowButtonHidden} onPress={leftBtnPressed} />
+      <SegmentComponent />
+      <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+        <View style={{ flexDirection: 'row', marginVertical: 20, height: 'auto' }}>
+          <ArrowButton direction="left" enabled={!leftArrowButtonHidden} onPress={leftBtnPressed} />
+        </View>
+        <View style={{ width: 200, height: 'auto' }}>
+          <CalendarComponent key={selectedDate} onButtonPress={onButtonPress} date={selectedDate} minDate={regDate} />
+        </View>
+        <View style={{ flexDirection: 'row', marginVertical: 20, height: 'auto' }}>
+          <ArrowButton direction={'right'} enabled={!rightArrowButtonHidden} onPress={rightBtnPressed} />
+        </View>
+      </View>
+      <View style={{ flex: 1, flexDirection: 'row', marginVertical: 20 }}>
+        <ListComponent receivedData={receivedData} />
+      </View>
     </View>
-    <View style={{ width: 200 ,height:'auto'}}>
-      <CalendarComponent onButtonPress={onButtonPress} />
-    </View>
-    <View style={{ flexDirection: 'row', marginVertical: 20 ,height:'auto'}}>
-      <ArrowButton direction={'right'} enabled={!rightArrowButtonHidden} onPress={rightBtnPressed} />
-    </View>
-  </View>
-  <View style={{ flex:1,flexDirection: 'row', marginVertical: 20 }}>
-    <ListComponent receivedData={receivedData}/>
-  </View>
-</View>
-
   );
 };
 
