@@ -20,14 +20,12 @@ const GraphPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [leftArrowButtonHidden, setLeftArrowButtonHidden] = useState(false);
   const [rightArrowButtonHidden, setRightArrowButtonHidden] = useState(false);
-  const [regDate, setRegDate] = useState(new Date(2023, 5, 23));
+  const [regDate, setRegDate] = useState(new Date(2023, 4, 23));
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [selectedSegment, setSelectedSegment] = useState(0);
+  const dataFor = "Heart rate"
 
-   const fai = {
-    key1: 'value1',
-    key2: 'value2',
-    key3: 'value3',
-  };
+
 
   const [receivedData, setReceivedData] = useState({});
   
@@ -79,6 +77,11 @@ const GraphPage = () => {
     MyModule.myNativeMethod('Data from JavaScript to iOS!');
   };
 
+  const onSegmentSelect = (value) => {
+    console.log('onSegmentSelect = ' + value);
+    setSelectedSegment(value)
+  }
+
   const compareDates = (dateString1, dateString2) => {
     const date1 = new Date(dateString1);
     const date2 = new Date(dateString2);
@@ -87,7 +90,7 @@ const GraphPage = () => {
     date1.setHours(0, 0, 0, 0);
     date2.setHours(0, 0, 0, 0);
   
-    console.log('date1 = ' + date1 + ' date2 = ' + date2);
+    //console.log('date1 = ' + date1 + ' date2 = ' + date2);
     
     if (date1.getTime() < date2.getTime()) {
       return true;
@@ -109,7 +112,22 @@ const GraphPage = () => {
   };
 
   const fetchDataFromNative = () => {
+    
+    // const weekStart = getWeekStart(selectedDate);
+    // console.log('getWeekStart!' + weekStart);
+    // const { startDate, endDate } = getWeekRange(weekStart);
+    // console.log('getWeekRange!' + startDate + endDate );
+    // console.log('addDaysInDate = ' + addDaysInDate(startDate,-7))
 
+    // console.log('getMonthStart = ' + getMonthStart(selectedDate));
+    // console.log('addMonthInDate = ' + addMonthInDate(selectedDate,-1));
+
+    console.log('getYearStart = ' + getYearStart(selectedDate));
+    console.log('addYearsToDate = ' + addYearsToDate(getYearStart(selectedDate),1));
+
+
+    // console.log('fetchDataFromNative onSegmentSelect = ' + selectedSegment);
+    console.log('fetchDataFromNative selectedDate = ' + selectedDate);
 
     // MyModule.getDataFromNative((error, data) => {
     //   if (error) {
@@ -118,6 +136,17 @@ const GraphPage = () => {
     //     console.log('Data from iOS to JavaScript:', data);
     //   }
     // });
+
+    const tempType = getSegmentType(selectedSegment);
+    const tempDate = formatDate(selectedDate)
+
+    const fai = {
+      dataFor: dataFor,
+      type: tempType,
+      date: tempDate,
+    };
+
+    console.log('fai values = ' + fai)
 
     MyModule.callApi('store/fetch_store_home_components?', fai)
     .then((response) => {
@@ -131,19 +160,90 @@ const GraphPage = () => {
     });
   };
 
+  const getWeekStart = (date) => {
+    const dayOfWeek = date.getDay();
+    const diff = date.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1); // Adjust for Sunday
+  
+    const weekStart = new Date(date);
+    weekStart.setDate(diff);
+    weekStart.setHours(0, 0, 0, 0); 
+  
+    return weekStart;
+  };
 
-  useEffect(() => {
-    fetchDataFromNative();
-  }, []);
+  const getWeekRange = (date) => {
+    const startDate = new Date(date);
+    const endDate = new Date(date);
+    endDate.setDate(startDate.getDate() + 6);
+    return { startDate, endDate };
+  };
 
+  const addDaysInDate = (date,days) => {
+    const newDate = new Date(date);
+    newDate.setDate(newDate.getDate() + days);
+    return newDate;
+  };
+
+  const getMonthStart = (date) => {
+    const monthStart = new Date(date);
+    monthStart.setDate(1); 
+    monthStart.setHours(0, 0, 0, 0); 
+  
+    return monthStart;
+  };
+
+  const addMonthInDate = (date, month) => {
+    const newDate = new Date(date); 
+    newDate.setMonth(newDate.getMonth() + month);
+    return newDate;
+  };
+
+  const getYearStart = (date) => {
+    const yearStart = new Date(date);
+    yearStart.setFullYear(date.getFullYear(), 0, 1); // Set the year, month (0 for January), and date to January 1st
+    yearStart.setHours(0, 0, 0, 0); 
+  
+    return yearStart;
+  };
+
+  const addYearsToDate = (date, years) => {
+    const newDate = new Date(date); 
+    newDate.setFullYear(newDate.getFullYear() + years);
+    return newDate;
+  };
+
+  const formatDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
+    const day = String(date.getDate()).padStart(2, '0'); 
+  
+    return `${year}-${month}-${day}`;
+  };
+
+  const getSegmentType = (index) =>{
+
+    if(index == 0){
+      return "Daily";
+    }else if(index == 1){
+      return "Weekly";
+    }else if(index == 2){
+      return "Monthly";
+    }else if(index == 3){
+      return "Yearly";
+    }
+
+    return 'Daily';
+  }
+  
   useEffect(() => {
     setButtonState();
+    fetchDataFromNative();
   }, [selectedDate]);
 
   return (
 
 <View style={styles.container}>
-      <SegmentComponent />
+      <SegmentComponent onButtonPress={onSegmentSelect}/>
       <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
         <View style={{ flexDirection: 'row', marginVertical: 20, height: 'auto' }}>
           <ArrowButton direction="left" enabled={!leftArrowButtonHidden} onPress={leftBtnPressed} />

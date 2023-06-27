@@ -2,11 +2,12 @@ import React, { useState, useEffect} from 'react';
 import { View, Text } from 'react-native';
 import SegmentedControlTab from 'react-native-segmented-control-tab';
 
-const SegmentComponent = () => {
+const SegmentComponent = (props) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleIndexChange = (index) => {
     setSelectedIndex(index);
+    props.onButtonPress(index);
   };
 
   useEffect(() => {

@@ -16,7 +16,7 @@ const ListItem = ({ item,yAxisValues,listData }) => {
     );
   } else if (item.type === 'web') {
 
-    console.log('yAxisValues = '+yAxisValues)
+    //console.log('yAxisValues = '+yAxisValues)
 
     return (
       
@@ -48,7 +48,7 @@ const ListComponent = ({ receivedData }) => {
       if (receivedData && receivedData.data && receivedData.data.yAxisValues) {
         
         try{
-        console.log('List data 2 ' + receivedData)
+        //console.log('List data 2 ' + receivedData)
 
         setListData(receivedData.data.listData)
         setyAxisValues(receivedData.data.yAxisValues)
