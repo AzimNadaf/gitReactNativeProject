@@ -4,7 +4,7 @@ import WebComponent from './WebComponent';
 import DataDisplayInRowComponent from './DataDisplayInRowComponent.js';
 
 const ListItem = ({ item,yAxisValues,listData }) => {
-  const url = "http://192.168.2.141:3000";
+  const url = "http://192.168.2.55:3000";
   const testData = "abc";
   
   if (item.type === 'text') {
@@ -34,7 +34,7 @@ const ListComponent = ({ receivedData }) => {
 
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([
-    { id: 1, type: 'web', source: '', content: 'abc', title: 'Item 1' },
+    { id: 1, type: 'web', source: '', dateValue: 'abc', subTitle: 'xyz', title: 'Item 1' },
   ]);
 
   const [yAxisValues, setyAxisValues] = useState([]);
@@ -68,7 +68,7 @@ const ListComponent = ({ receivedData }) => {
     if((listData.length > 1) && (data.length > 0) && listData.length >= data.length){ 
       newData = [
         ...data,
-        { id: data.length + 1, type: 'text', content: `${listData[data.length - 1].title}`, title: `Item ${data.length + 1}` },
+        { id: data.length + 1, type: 'text', dateValue: `${listData[data.length - 1].title}`, subTitle: `${listData[data.length - 1].subTitle}`, title: `Item ${data.length + 1}` },
       ];
 
     }else{

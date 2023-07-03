@@ -6,7 +6,8 @@ const DataDisplayInRowComponent = ({ item }) => {
   return (
     <View style={styles.container}>
       <View style={styles.itemContentContainer}>
-        <Text style={styles.itemContent}>{item.content}</Text>
+        <Text style={styles.itemContent}>{item.dateValue}</Text>
+        <Text style={styles.itemContent}>{item.subTitle}</Text>
       </View>
       <RowComponent/>
     </View>

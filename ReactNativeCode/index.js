@@ -16,7 +16,7 @@ import MyModule from './MyModule';
 const GraphPage = () => {
 
 
-  const url="http://192.168.2.141:3000";//http://192.168.2.141:3000 http://192.168.2.125:3000
+  const url="http://192.168.2.55:3000";
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [leftArrowButtonHidden, setLeftArrowButtonHidden] = useState(false);
   const [rightArrowButtonHidden, setRightArrowButtonHidden] = useState(false);
@@ -122,8 +122,8 @@ const GraphPage = () => {
     // console.log('getMonthStart = ' + getMonthStart(selectedDate));
     // console.log('addMonthInDate = ' + addMonthInDate(selectedDate,-1));
 
-    console.log('getYearStart = ' + getYearStart(selectedDate));
-    console.log('addYearsToDate = ' + addYearsToDate(getYearStart(selectedDate),1));
+    // console.log('getYearStart = ' + getYearStart(selectedDate));
+    // console.log('addYearsToDate = ' + addYearsToDate(getYearStart(selectedDate),1));
 
 
     // console.log('fetchDataFromNative onSegmentSelect = ' + selectedSegment);
