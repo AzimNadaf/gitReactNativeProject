@@ -16,12 +16,12 @@ const ListItem = ({ item,xAxisValues,yAxisValues,listData,allData }) => {
     );
   } else if (item.type === 'web') {
 
-    console.log('xAxisValues = '+xAxisValues)
+    //console.log('xAxisValues = '+xAxisValues)
 
     return (
       
         <View>
-        <WebComponent url={url} xAxisValues={xAxisValues} data={yAxisValues} testDate={allData} />
+        <WebComponent url={url} xAxisValues={xAxisValues} data={yAxisValues} testData={allData} />
       </View>
      
     );
@@ -40,7 +40,7 @@ const ListComponent = ({ receivedData }) => {
   const [xAxisValues, setxAxisValues] = useState([]);
   const [yAxisValues, setyAxisValues] = useState([]);
   const [listData, setListData] = useState([{}]);
-  const [allData, setAllData] = useState([{}]);
+  const [allData, setAllData] = useState('test');
 
   const loadMoreData = () => {
     setIsLoading(true);
@@ -53,10 +53,13 @@ const ListComponent = ({ receivedData }) => {
         try{
         console.log('List data 2 ' + receivedData)
 
+        // const jsonString = JSON.stringify(receivedData);
+        setAllData(receivedData)
         setListData(receivedData.data.listData)
         setxAxisValues(receivedData.data.xAxisValues)
         setyAxisValues(receivedData.data.yAxisValues)
-        setAllData(receivedData.data)
+        
+        
 
         }catch{
           console.log('parcatchsedObject')
