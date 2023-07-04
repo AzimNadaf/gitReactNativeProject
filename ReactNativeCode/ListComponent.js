@@ -3,9 +3,9 @@ import { View, FlatList, Text, ActivityIndicator } from 'react-native';
 import WebComponent from './WebComponent';
 import DataDisplayInRowComponent from './DataDisplayInRowComponent.js';
 
-const ListItem = ({ item,yAxisValues,listData }) => {
+const ListItem = ({ item,xAxisValues,yAxisValues,listData,allData }) => {
   const url = "http://192.168.2.55:3000";
-  const testData = "abc";
+  
   
   if (item.type === 'text') {
     
@@ -16,12 +16,12 @@ const ListItem = ({ item,yAxisValues,listData }) => {
     );
   } else if (item.type === 'web') {
 
-    //console.log('yAxisValues = '+yAxisValues)
+    console.log('xAxisValues = '+xAxisValues)
 
     return (
       
         <View>
-        <WebComponent url={url} data={yAxisValues} testDate={testData} />
+        <WebComponent url={url} xAxisValues={xAxisValues} data={yAxisValues} testDate={allData} />
       </View>
      
     );
@@ -37,21 +37,27 @@ const ListComponent = ({ receivedData }) => {
     { id: 1, type: 'web', source: '', dateValue: 'abc', subTitle: 'xyz', title: 'Item 1' },
   ]);
 
+  const [xAxisValues, setxAxisValues] = useState([]);
   const [yAxisValues, setyAxisValues] = useState([]);
   const [listData, setListData] = useState([{}]);
+  const [allData, setAllData] = useState([{}]);
 
   const loadMoreData = () => {
     setIsLoading(true);
     var newData = [];
+
     setTimeout(() => {
       if(receivedData != null){
       if (receivedData && receivedData.data && receivedData.data.yAxisValues) {
         
         try{
-        //console.log('List data 2 ' + receivedData)
+        console.log('List data 2 ' + receivedData)
 
         setListData(receivedData.data.listData)
+        setxAxisValues(receivedData.data.xAxisValues)
         setyAxisValues(receivedData.data.yAxisValues)
+        setAllData(receivedData.data)
+
         }catch{
           console.log('parcatchsedObject')
         }
@@ -81,7 +87,7 @@ const ListComponent = ({ receivedData }) => {
     <FlatList
       style={{ flex: 1, height: 'auto' }}
       data={data}
-      renderItem={({ item }) => <ListItem item={item} yAxisValues={yAxisValues} listData={listData}/>}
+      renderItem={({ item }) => <ListItem item={item} xAxisValues={xAxisValues} yAxisValues={yAxisValues} listData={listData} allData={allData}/>}
       keyExtractor={(item) => item.id.toString()}
       onEndReached={loadMoreData}
       onEndReachedThreshold={0.2}
