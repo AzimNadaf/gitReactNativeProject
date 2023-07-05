@@ -34,8 +34,8 @@ const WebComponent = ( props ) => {
     }
     const jsonString = JSON.stringify(props.testData);
     console.log('useEffect data: ' + jsonString);
-    sendMessageToWebView(props.data);
-  }, [props.data]);
+    sendMessageToWebView(props.testData);
+  }, [props.testData]);
   
 
   function sendMessageToWebView(data) {

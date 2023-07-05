@@ -40,7 +40,7 @@ const ListComponent = ({ receivedData }) => {
   const [xAxisValues, setxAxisValues] = useState([]);
   const [yAxisValues, setyAxisValues] = useState([]);
   const [listData, setListData] = useState([{}]);
-  const [allData, setAllData] = useState('test');
+  const [allData, setAllData] = useState({});
 
   const loadMoreData = () => {
     setIsLoading(true);
