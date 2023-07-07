@@ -20,15 +20,12 @@ const GraphPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [leftArrowButtonHidden, setLeftArrowButtonHidden] = useState(false);
   const [rightArrowButtonHidden, setRightArrowButtonHidden] = useState(false);
-  const [regDate, setRegDate] = useState(new Date(2023, 4, 23));
+  const [regDate, setRegDate] = useState(new Date(2023, 2, 23));
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedSegment, setSelectedSegment] = useState(0);
   const dataFor = "Heart rate"
-
-
-
   const [receivedData, setReceivedData] = useState({});
-  
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   const handleNavigationStateChange = event => {
     if (event.loading) {
@@ -125,17 +122,12 @@ const GraphPage = () => {
     // console.log('getYearStart = ' + getYearStart(selectedDate));
     // console.log('addYearsToDate = ' + addYearsToDate(getYearStart(selectedDate),1));
 
-
     // console.log('fetchDataFromNative onSegmentSelect = ' + selectedSegment);
+
+
     console.log('fetchDataFromNative selectedDate = ' + selectedDate);
 
-    // MyModule.getDataFromNative((error, data) => {
-    //   if (error) {
-    //     console.error(error);
-    //   } else {
-    //     console.log('Data from iOS to JavaScript:', data);
-    //   }
-    // });
+  
 
     const tempType = getSegmentType(selectedSegment);
     const tempDate = formatDate(selectedDate)
@@ -223,22 +215,28 @@ const GraphPage = () => {
   const getSegmentType = (index) =>{
 
     if(index == 0){
-      return "Daily";
+      return "daily";
     }else if(index == 1){
-      return "Weekly";
+      return "weekly";
     }else if(index == 2){
-      return "Monthly";
+      return "monthly";
     }else if(index == 3){
-      return "Yearly";
+      return "yearly";
     }
 
-    return 'Daily';
+    return 'daily';
   }
   
   useEffect(() => {
-    setButtonState();
-    fetchDataFromNative();
+    console.log('useEffect index')
+     setButtonState();
+     fetchDataFromNative();
   }, [selectedDate]);
+
+  useEffect(() => {
+    console.log('useEffect receivedData index')
+    // setIsDataLoaded(prevState => !prevState);
+  }, [receivedData]);
 
   return (
 
@@ -255,9 +253,9 @@ const GraphPage = () => {
           <ArrowButton direction={'right'} enabled={!rightArrowButtonHidden} onPress={rightBtnPressed} />
         </View>
       </View>
-      <View style={{ flex: 1, flexDirection: 'row', marginVertical: 20 }}>
-        <ListComponent receivedData={receivedData} />
-      </View>
+        <View style={{ flex: 1, flexDirection: 'row', marginVertical: 20 }}>
+          <ListComponent key={isDataLoaded} receivedData={receivedData} />
+        </View>
     </View>
   );
 };
