@@ -6,6 +6,11 @@ import DataDisplayInRowComponent from './DataDisplayInRowComponent.js';
 const ListItem = ({ item, xAxisValues, yAxisValues, listData, allData }) => {
   const url = "http://192.168.2.55:3000";
 
+  // console.log('xAxisValues 12345 ' + xAxisValues)
+  // console.log('yAxisValues 12345 ' + yAxisValues)
+  // console.log('listData 12345 ' + listData)
+  // console.log('allData 12345 ' + allData)
+
   if (item.type === 'text') {
     return (
       <DataDisplayInRowComponent item={item} />
