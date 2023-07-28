@@ -1,15 +1,11 @@
-import React, { useState,useEffect,useRef } from 'react';
+import React, { useState,useEffect } from 'react';
 import {
-  AppRegistry,StyleSheet,Text,View,Button,SafeAreaView
+  AppRegistry,View
 } from 'react-native';
 import SegmentComponent from './SegmentComponent';
 import styles from './ComponentStyles';
 import CalendarComponent from './CalendarComponent';
 import ArrowButton from './ArrowButton';
-import WebComponent from './WebComponent';
-import { NativeModules } from 'react-native';
-import BridgeModule from './BridgeModule';
-import WebView from 'react-native-webview';
 import ListComponent from './ListComponent';
 import MyModule from './MyModule'; 
 
@@ -26,6 +22,8 @@ const GraphPage = () => {
   const dataFor = "Heart rate"
   const [receivedData, setReceivedData] = useState({});
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+
+  const [isFirstTimeLoaded, setIsFirstTimeLoaded] = useState(false);
 
   const handleNavigationStateChange = event => {
     if (event.loading) {
@@ -71,7 +69,7 @@ const GraphPage = () => {
     setSelectedDate(value)
     console.log('selectedDate onButtonPress!' + value);
 
-    MyModule.myNativeMethod('Data from JavaScript to iOS!');
+    // MyModule.myNativeMethod('Data from JavaScript to iOS!');
   };
 
   const onSegmentSelect = (value) => {
@@ -231,6 +229,15 @@ const GraphPage = () => {
     console.log('useEffect index')
      setButtonState();
      fetchDataFromNative();
+
+     if(!isFirstTimeLoaded){
+      setTimeout(() => {
+        setIsFirstTimeLoaded(true)
+        fetchDataFromNative();
+      }, 1000);
+     }
+
+
   }, [selectedDate]);
 
   useEffect(() => {

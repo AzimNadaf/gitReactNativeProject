@@ -31,9 +31,11 @@ const WebComponent = ( props ) => {
     if(props.data == null){
       console.log('data is null')
       return
+    }else{
+      console.log('data is not null')
     }
     const jsonString = JSON.stringify(props.testData);
-    // console.log('useEffect data: ' + jsonString);
+    // console.log('useEffect data in web component: ' + jsonString);
     sendMessageToWebView(props.testData);
   }, [props.testData]);
   
@@ -42,6 +44,7 @@ const WebComponent = ( props ) => {
     const jsonString = JSON.stringify(data);
    // console.log('WebComponent data: ' + jsonString);
      webViewRef.current.postMessage(jsonString);
+     
   }
 
   return (
